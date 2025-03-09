@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Crush</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(8, 50px);
+            grid-template-rows: repeat(8, 50px);
+            gap: 5px;
+        }
+        .tile {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            background-color: white;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid" id="grid"></div>
+    <script>
+        const EMOJIS = ["😀", "😎", "😜", "😍", "🤔", "😇"];
+        const GRID_WIDTH = 8;
+        const GRID_HEIGHT = 8;
+        const grid = document.getElementById('grid');
+
+        function generateGrid() {
+            const gridArray = [];
+            for (let row = 0; row < GRID_HEIGHT; row++) {
+                const rowArray = [];
+                for (let col = 0; col < GRID_WIDTH; col++) {
+                    const emoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+                    rowArray.push(emoji);
+                }
+                gridArray.push(rowArray);
+            }
+            return gridArray;
+        }
+
+        function drawGrid(gridArray) {
+            grid.innerHTML = '';
+            gridArray.forEach((row, rowIndex) => {
+                row.forEach((emoji, colIndex) => {
+                    const tile = document.createElement('div');
+                    tile.classList.add('tile');
+                    tile.textContent = emoji;
+                    tile.dataset.row = rowIndex;
+                    tile.dataset.col = colIndex;
+                    tile.addEventListener('click', () => handleTileClick(rowIndex, colIndex));
+                    grid.appendChild(tile);
+                });
+            });
+        }
+
+        function handleTileClick(row, col) {
+            console.log(`Tile clicked: (${row}, ${col})`);
+            // Add game logic here
+        }
+
+        const gridArray = generateGrid();
+        drawGrid(gridArray);
+    </script>
+</body>
+</html>
+
